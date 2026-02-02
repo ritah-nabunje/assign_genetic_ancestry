@@ -4,21 +4,17 @@
 
 #-----------------
 # 1. qc_prune_pca.sh
-#
 # Perform QC on reference and study genotype data, harmonise variants,
 #   select shared LD-pruned SNPs, compute PCA in a reference panel,
 #   and project study samples into the same PC space.
-#
 # Requires:
 #   - PLINK 2.0
 #   - BED/BIM/FAM for both ref and study data
 #   - High-LD region file in PLINK's --exclude range format
-#
 # Output:
 # 	- reference PCs (eigenvec and eigen values)
 #   - study PCs 
 #----------------------------------------------
-
 
 WORKING_DIR="/path/to/dir"
 
@@ -133,7 +129,7 @@ plink2 \
 	--pca allele-wts \
 	--out "${REF_NAME}.pca"
 
-# Project study samples into reference PC space
+# project study samples into the reference PC space
 plink2 \
 	--bfile "${STUDY}.pruned" \
 	--allow-no-sex \
