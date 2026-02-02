@@ -1,13 +1,10 @@
 #-----------------------
 # 2. train_rf_classifier.R
-#
 #Train a Random Forest classifier to predict ancestry super-populations
 #   using principal components derived from a reference panel (e.g. 1000G)
-#
 # Input:
 #   - PCA eigenvectors from the reference panel
 #   - Reference sample metadata with population labels
-#
 # Output:
 #   - Trained RF model (RData)
 #   - PCA plot of reference samples
@@ -115,7 +112,6 @@ png(file="rf_model_accuracy.png",width=600, height=400)
 plot(rf_model, metric = "Accuracy")
 dev.off()
 
-
 #-------------model performance on test data
 test_preds  <- predict(rf_model, test_data)
 
@@ -135,5 +131,5 @@ ggplot(conf_df, aes(x = Reference, y = Prediction, fill = Percentage)) +
   labs(title = "confusion matrix")
 ggsave("confusion_matrix_rf.png", width = 6, height = 4, dpi = 300)
 
-# Save the trained model 
+# save the trained model - if satsfied with the performace
 save(rf_model, file="rf_model.RData")
