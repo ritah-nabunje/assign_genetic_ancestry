@@ -7,9 +7,9 @@ Assign population labels to study samples using principal components derived fro
 - Assign ancestry labels probabilistically with configurable confidence thresholds
 
 ## Structure  
-1. QC, variant ID harmonisation and PCA
-2. Train Random Forest classifier
-3. Assign population labels to study samples
+1. qc_prune_pca.sh ==> QC, variant ID harmonisation and PCA
+2. train_rf_classifier.R ==> Train Random Forest classifier
+3. assign_populations.R ==> Assign population labels to study samples
 
 
 > PS, this approach is intended for global ancestry stratification (AFR, EUR, EAS, SAS, AMR), not fine-scale population inference or admixture estimation.
