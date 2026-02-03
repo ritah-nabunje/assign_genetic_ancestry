@@ -64,7 +64,7 @@ study_pcs_adj <- study_pcs %>%
 # apply rf_model 
 pred_probs <- predict(rf_model, study_pcs_adj, type="prob")
 
-study_pred <- bind_cols(study_pcs_adj, pred_prob)
+study_pred <- bind_cols(study_pcs_adj, pred_probs)
 
 #-------------assign population using probability thresholds
 # For each individual, the random forest outputs posterior probabilities
@@ -77,55 +77,22 @@ study_pred <- bind_cols(study_pcs_adj, pred_prob)
 
 # it generates separate columns for each thresholds e.g pred_0.9, pred_0.8, ...
 # ps, thresholds were selected at the top (line 32??) of this script
-
 assign_by_threshold <- function(df, threshold) {
   pop_cols <- colnames(pred_probs)
-
-  df %>%
+  df_out <- df %>%
     mutate(
       assigned_pop = apply(
         select(., all_of(pop_cols)),
         1,
-        function(x) {
-          if (max(x) >= threshold) {
-            pop_cols[which.max(x)]
-          } else {
-            NA
-          }
-        }
+        function(x) {if (max(x) >= threshold) {pop_cols[which.max(x)]} else {NA}}
       )
-    ) %>%
-    rename(!!paste0("pred_", threshold) := assigned_pop)
+    )
+  df_out[[paste0("pred_", threshold)]] <- df_out$assigned_pop
+  df_out$assigned_pop <- NULL
+  df_out
 }
 
-for (t in PROB_THRESHOLDS) {
-  study_pred <- assign_by_threshold(study_pred, t)
-}
-
-#--------- i like to see how the different thresholds separate samples
-# colour Palette
-palette <- c(
-  "AFR" = "#E41A1C",
-  "EUR" = "#377EB8", 
-  "AMR" = "#4DAF4A", 
-  "EAS" = "#FF7F00",
-  "SAS" = "#984EA3",
-  "NA" = "grey70"
-)
-
-for (t in PROB_THRESHOLDS) {
-
-  col <- paste0("pred_", t)
-
-  # PCA plot
-  p <- ggplot(study_pred, aes(PC1, PC2, color = .data[[col]])) +
-    geom_point(size = 1) +
-    theme_classic() +
-    scale_color_manual(values = palette, name = "Population") +
-    labs(title = paste0("P > ", t))
-
-  ggsave(paste0("prob", t, ".png"), p, width = 6, height = 4, dpi = 300)
-}
+for (t in PROB_THRESHOLDS) {study_pred <- assign_by_threshold(study_pred, t)}
 
 # ------ save table of outputs - includes columns for all thresholds used
 write.table(study_pred,file = "ancestry_assignments.tsv",sep = "\t",row.names = FALSE,quote = FALSE)
