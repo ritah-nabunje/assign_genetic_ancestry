@@ -84,7 +84,7 @@ train_control <- trainControl(method = "repeatedcv",
                               classProbs = TRUE)
 
 # parameter tuning - how many trees to try
-tuning_parameters <- expand.grid(mtry = c(1:N_PCS))
+tune_grid <- expand.grid(mtry = c(1:N_PCS))
 
 # build/train RF model
 set.seed(SEED)
@@ -115,12 +115,12 @@ dev.off()
 #-------------model performance on test data
 test_preds  <- predict(rf_model, test_data)
 
-# confusion matrix (comparing predictions with original labels)
+# confusion matrix (comparing predictions with original population labels)
 conf_matrix <- confusionMatrix(test_preds, test_data$superpop)
 print(conf_matrix)
 
 conf_df <- as.data.frame(conf_matrix$table)
-conf_df$Percentage <- conf_df$Freq / colSums(conf_table)[conf_df$Reference] * 100
+conf_df$Percentage <- conf_df$Freq / colSums(conf_matrix$table)[conf_df$Reference] * 100
 
 # make heatmap of the confusion matrix
 ggplot(conf_df, aes(x = Reference, y = Prediction, fill = Percentage)) +
