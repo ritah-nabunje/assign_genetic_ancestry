@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Be ware of typos!! 
+
 # add job scheduler details here if needed
 
 #-----------------
