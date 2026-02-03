@@ -43,6 +43,7 @@ study_pcs <- study_raw %>%
 # Required when PCs are projected using allele weights
 # See: https://www.cog-genomics.org/plink/2.0/score#pca_project
 # Also Kate Shim's comment here ==> https://groups.google.com/g/plink2-users/c/W6DL5-hs_Q4/m/pMwsSYxtAwAJ
+# Christopher Chang suggests another way to do this but i haven't tried it - https://groups.google.com/g/plink2-users/c/W6DL5-hs_Q4/m/b_o3JMrxAwAJ
 
 # Here, each PC is divided by:
 #   -sqrt(lambda_k) / 2 where lambda_k is the k-th eigenvalue from the reference PCA
