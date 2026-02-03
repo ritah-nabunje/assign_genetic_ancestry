@@ -1,3 +1,5 @@
+# Be ware of typos!! 
+
 #-----------------------
 # 2. train_rf_classifier.R
 #Train a Random Forest classifier to predict ancestry super-populations
@@ -28,13 +30,11 @@ SEED  <- 123 # for reproducibility
 
 #------- load reference PCs 
 # expected PLINK format: FID IID PC1 PC2...PCN
-ref_pcs<- read.table(REF_PCS_FILE)
-
-# rename the PC columns
-colnames(ref_pcs)[3:(2 + N_PCS)] <- paste0("PC", 1:N_PCS)
+ref_pcs<- read.table(REF_PCS_FILE, header=TRUE, comment.char="")
+colnames(ref_pcs)[1] <- "FID"
 
 #------- load reference metadata 
-ref_meta_raw  <-read.csv("/path/to/20130606_1000GP_sample_info.csv")
+ref_meta_raw  <-read.csv(REF_META_FILE)
 
 # keep required columns
 # 1 = sample ID and 3 = Population codes (e.g. YRI, GBR)
