@@ -1,3 +1,5 @@
+# Be ware of typos!! 
+
 # assign population labels to study data
 #-------------------------
 # 3. assign_population.R
