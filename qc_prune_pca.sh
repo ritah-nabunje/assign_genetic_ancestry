@@ -139,3 +139,5 @@ plink2 \
 	list-variants \
 	--score-col-nums 6-15 \
 	--out "${STUDY}.pca_projected"
+
+# it may help to visualise the reference and study PCA together first before you continue. 
