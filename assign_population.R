@@ -94,5 +94,11 @@ assign_by_threshold <- function(df, threshold) {
 
 for (t in PROB_THRESHOLDS) {study_pred <- assign_by_threshold(study_pred, t)}
 
-# ------ save table of outputs - includes columns for all thresholds used
+# could see assignments per group/thrershold
+#table(study_pred$pred0.9)
+#table(study_pred$pred0.8)
+#table(study_pred$pred0.7)
+#table(study_pred$pred0.5)
+
+# ------ save table of outputs - includes the PCs and columns for all thresholds used
 write.table(study_pred,file = "ancestry_assignments.tsv",sep = "\t",row.names = FALSE,quote = FALSE)
